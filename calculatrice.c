@@ -110,10 +110,10 @@ void erreur_popup(const char *nomErreur, const char *DialogueErr){
     
 }
 
-int verification_entier(const char *Nombre){
+double verification_entier(const char *Nombre){
     assert(Nombre != NULL);
     
-    unsigned int x = 0;
+    unsigned double x = 0;
     
     if(Nombre[0] == '-'){
         x++;
@@ -128,7 +128,7 @@ int verification_entier(const char *Nombre){
     return 0;
 }
 
-void resultat_addition(GtkWidget *pointeurLabel3, int Nombre1, int Nombre2){
+void resultat_addition(GtkWidget *pointeurLabel3, double Nombre1, double Nombre2){
     assert(pointeurLabel3 != NULL);
     
     char reponse[100];
@@ -136,7 +136,31 @@ void resultat_addition(GtkWidget *pointeurLabel3, int Nombre1, int Nombre2){
     gtk_label_set_text(GTK_LABEL(pointeurLabel3), reponse);
 }
 
-void verification_champs(void){
+void resultat_soustraction(GtkWidget *pointeurLabel3, double Nombre1, double Nombre2){
+    assert(pointeurLabel3 != NULL);
+    
+    char reponse[100];
+    sprintf(reponse, "La somme vaut : %d", Nombre1 - Nombre2);
+    gtk_label_set_text(GTK_LABEL(pointeurLabel3), reponse);
+}
+
+void resultat_multiplication(GtkWidget *pointeurLabel3, double Nombre1, double Nombre2){
+    assert(pointeurLabel3 != NULL);
+    
+    char reponse[100];
+    sprintf(reponse, "La somme vaut : %d", Nombre1 * Nombre2);
+    gtk_label_set_text(GTK_LABEL(pointeurLabel3), reponse);
+}
+
+void resultat_division(GtkWidget *pointeurLabel3, double Nombre1, double Nombre2){
+    assert(pointeurLabel3 != NULL);
+    
+    char reponse[100];
+    sprintf(reponse, "La somme vaut : %d", Nombre1 / Nombre2);
+    gtk_label_set_text(GTK_LABEL(pointeurLabel3), reponse);
+}
+
+void verification_champs(string operationDemandee){
     
     const char *Nombre1 = gtk_entry_get_text(GTK_ENTRY(pointeurEntree1));
     const char *Nombre2 = gtk_entry_get_text(GTK_ENTRY(pointeurEntree2));
@@ -151,20 +175,25 @@ void verification_champs(void){
     int testNombre2 = verification_entier(Nombre2);
         
     if(testNombre1 == -1 && testNombre2 == -1){
-        erreur_popup("ERREUR", "Les Deux champs possèdent autre chose qu'une valeur entière !");
+        erreur_popup("ERREUR", "Les deux champs possèdent autre chose qu'un nombre !");
     }
     else if(testNombre1 == -1 && testNombre2 == 0){
-        erreur_popup("ERREUR", "Le champ Nombre 1 possède autre chose qu'une valeur entière !");
+        erreur_popup("ERREUR", "Le champ Nombre 1 possède autre chose qu'un nombre !");
     }
     else if(testNombre1 == 0 && testNombre2 == -1){
-        erreur_popup("ERREUR", "Le champ Nombre 2 possède autre chose qu'une valeur entière !");
+        erreur_popup("ERREUR", "Le champ Nombre 2 possède autre chose qu'un nombre!");
     }
     else{
         //Conversion de la chaine de caractère en int
         int nombre1Convert = atoi(Nombre1);
         int nombre2Convert = atoi(Nombre2);
-    
-        resultat_addition(pointeurLabel3, nombre1Convert, nombre2Convert);
+        
+        switch(operationDemandee) {
+                case "Addition": resultat_addition(pointeurLabel3, nombre1Convert, nombre2Convert);
+                case "Soustraction": resultat_soustraction(pointeurLabel3, nombre1Convert, nombre2Convert);
+                case "Multiplication": resultat_multiplication(pointeurLabel3, nombre1Convert, nombre2Convert);
+                case "Division": resultat_soustraction(pointeurLabel3, nombre1Convert, nombre2Convert);
+        }
     }
 }
 
@@ -174,10 +203,44 @@ GtkWidget *bouton_addition(void){
     
     g_signal_connect(G_OBJECT(pointeurBouton), //La source du signal
                      "clicked", // ???
-                     G_CALLBACK(verification_champs), //La fonction qu'on appelle
+                     G_CALLBACK(verification_champs("Addition")), //La fonction qu'on appelle
                      NULL);
     
     return pointeurBouton;
 }
 
+GtkWidget *bouton_soustraction(void){
+    
+    GtkWidget *pointeurBouton = gtk_button_new_with_label("Soustraire");
+    
+    g_signal_connect(G_OBJECT(pointeurBouton), //La source du signal
+                     "clicked", // ???
+                     G_CALLBACK(verification_champs("Soustraction")), //La fonction qu'on appelle
+                     NULL);
+    
+    return pointeurBouton;
+}
 
+GtkWidget *bouton_multiplication(void){
+    
+    GtkWidget *pointeurBouton = gtk_button_new_with_label("Multiplier");
+    
+    g_signal_connect(G_OBJECT(pointeurBouton), //La source du signal
+                     "clicked", // ???
+                     G_CALLBACK(verification_champs("Multiplication")), //La fonction qu'on appelle
+                     NULL);
+    
+    return pointeurBouton;
+}
+
+GtkWidget *bouton_division(void){
+    
+    GtkWidget *pointeurBouton = gtk_button_new_with_label("Diviser");
+    
+    g_signal_connect(G_OBJECT(pointeurBouton), //La source du signal
+                     "clicked", // ???
+                     G_CALLBACK(verification_champs("Division")), //La fonction qu'on appelle
+                     NULL);
+    
+    return pointeurBouton;
+}

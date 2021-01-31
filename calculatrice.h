@@ -70,10 +70,10 @@ void erreur_popup(const char *nomErreur, const char *DialogueErr);
  @return -1 si la chaine de caractère possède autre chose que des valeurs entières\n
         0 si la chaine de caractères contient uniquement des valeurs entières
  */
-int verification_entier(const char *Nombre);
+double verification_entier(const char *Nombre);
 
 /**
- @fn void resultat_addition(GtkWidget *pointeurLabel3, int Nombre1, int Nombre2);
+ @fn void resultat_addition(GtkWidget *pointeurLabel3, double Nombre1, double Nombre2);
  
  @brief affiche le résultat de l'addition
  
@@ -84,10 +84,10 @@ int verification_entier(const char *Nombre);
  @pre pointeurLabel3 != NULL
  @post affiche le résultat de l'addition de Nombre1 et Nombre 2 sous forme de label
  */
-void resultat_addition(GtkWidget *pointeurLabel3, int Nombre1, int Nombre2);
+void resultat_addition(GtkWidget *pointeurLabel3, double Nombre1, double Nombre2);
 
 /**
- @fn void verification_champs(void);
+ @fn void verification_champs(string operationDemandee);
 
  @brief vérifie les champs des EntryBox
  
@@ -95,7 +95,7 @@ void resultat_addition(GtkWidget *pointeurLabel3, int Nombre1, int Nombre2);
  
  @post /
  */
-void verification_champs(void);
+void verification_champs(string operationDemandee);
 
 /**
  @fn GtkWidget *bouton_addition(void);
@@ -107,5 +107,38 @@ void verification_champs(void);
  @post retourne pointeurBouton qui est un pointeur sur GtkWidget
  */
 GtkWidget *bouton_addition(void);
+
+/**
+ @fn GtkWidget *bouton_soustraction(void);
+ 
+ @brief affiche le bouton de soustraction
+ 
+ @pre /
+ 
+ @post retourne pointeurBouton qui est un pointeur sur GtkWidget
+ */
+GtkWidget *bouton_soustraction(void);
+
+/**
+ @fn GtkWidget *bouton_multiplication(void);
+ 
+ @brief affiche le bouton de multiplication
+ 
+ @pre /
+ 
+ @post retourne pointeurBouton qui est un pointeur sur GtkWidget
+ */
+GtkWidget *bouton_multiplication(void);
+
+/**
+ @fn GtkWidget *bouton_division(void);
+ 
+ @brief affiche le bouton de division
+ 
+ @pre /
+ 
+ @post retourne pointeurBouton qui est un pointeur sur GtkWidget
+ */
+GtkWidget *bouton_division(void);
 
 #endif //__CALCULATRICE__
